@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Users2, LogOut, ChevronRight, Zap, Shield, Sun, Moon } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { useThemeStore } from '../../store/themeStore';
-
+import { useQueryClient } from '@tanstack/react-query';
 const navItems = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/leads', icon: Users2, label: 'Leads' },
@@ -12,8 +12,8 @@ export const Sidebar = () => {
   const { user, logout } = useAuthStore();
   const { theme, toggleTheme } = useThemeStore();
   const navigate = useNavigate();
-
-  const handleLogout = () => { logout(); navigate('/login'); };
+  const queryClient = useQueryClient();
+  const handleLogout = () => { queryClient.clear(); logout(); navigate('/login'); };
 
   const isAdmin = user?.role === 'admin';
 
